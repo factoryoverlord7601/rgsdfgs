@@ -22,6 +22,10 @@ export function generateDungeon({ width=80, height=50, seed=null }) {
   const rng = new RNG(seed);
   const leafs = [];
   const MIN_SIZE = 8;
+  const rooms = [];
+
+  // Initialize map early so connectRooms can access it
+  const map = Array.from({length:height},()=>Array.from({length:width},()=>1));
 
   class Leaf {
     constructor(x,y,w,h){
@@ -68,9 +72,9 @@ export function generateDungeon({ width=80, height=50, seed=null }) {
     }
   }
 
-  const rooms = [];
   const root = new Leaf(1,1,width-2,height-2);
   leafs.push(root);
+  
   // split until can't
   let did = true;
   for (let i=0;i<100 && did;i++){
@@ -84,20 +88,6 @@ export function generateDungeon({ width=80, height=50, seed=null }) {
             did = true;
           }
         }
-      }
-    }
-  }
-  // create rooms recursively
-  root.createRooms();
-
-  // map full of walls
-  const map = Array.from({length:height},()=>Array.from({length:width},()=>1));
-  // carve rooms
-  for (let r of rooms){
-    for (let yy=0; yy<r.h; yy++){
-      for (let xx=0; xx<r.w; xx++){
-        const x = r.x+xx, y = r.y+yy;
-        if (x>=0 && x<width && y>=0 && y<height) map[y][x]=0;
       }
     }
   }
@@ -121,6 +111,18 @@ export function generateDungeon({ width=80, height=50, seed=null }) {
     for (let y = Math.min(y1,y2); y<=Math.max(y1,y2); y++) map[y][x]=0;
   }
 
-  // optionally add doors/walls smoothing - keep simple
+  // create rooms recursively (now map is defined, so connectRooms works)
+  root.createRooms();
+
+  // carve rooms
+  for (let r of rooms){
+    for (let yy=0; yy<r.h; yy++){
+      for (let xx=0; xx<r.w; xx++){
+        const x = r.x+xx, y = r.y+yy;
+        if (x>=0 && x<width && y>=0 && y<height) map[y][x]=0;
+      }
+    }
+  }
+
   return { map, rooms, width, height, seed };
 }
