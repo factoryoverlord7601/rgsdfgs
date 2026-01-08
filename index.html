@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dungeon Forge — Procedural Dungeon Crawler</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="ui-root">
+    <header id="title">Dungeon Forge</header>
+    <div id="controls">
+      <button id="btn-restart" class="ui-btn">Restart</button>
+      <span id="seed-label">Seed: <input id="seed-input" placeholder="random" /></span>
+      <button id="btn-new-seed" class="ui-btn">New Seed</button>
+    </div>
+    <canvas id="game"></canvas>
+    <div id="hud">
+      <div id="hp">HP: <span id="hp-val">10</span>/<span id="hp-max">10</span></div>
+      <div id="floor">Floor: <span id="floor-val">1</span></div>
+      <div id="log"></div>
+    </div>
+    <div id="touch-controls">
+      <div id="dpad">
+        <button data-dir="up">▲</button>
+        <button data-dir="left">◀</button>
+        <button data-dir="down">▼</button>
+        <button data-dir="right">▶</button>
+      </div>
+      <button id="touch-attack">Attack</button>
+    </div>
+    <footer id="footer">Arrow keys / WASD to move • Space to attack • Click/tap to focus</footer>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
