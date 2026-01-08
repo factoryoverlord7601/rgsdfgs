@@ -24,7 +24,7 @@ export function generateDungeon({ width=80, height=50, seed=null }) {
   const MIN_SIZE = 8;
   const rooms = [];
 
-  // Initialize map early so connectRooms can access it
+  // FIX: Initialize map early so connectRooms can access it when called by Leaf.createRooms
   const map = Array.from({length:height},()=>Array.from({length:width},()=>1));
 
   class Leaf {
